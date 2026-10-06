@@ -1,0 +1,5 @@
+let num = 9;
+let square = num * num;
+let cube = num * num * num;
+console.log(square);
+console.log(cube);
