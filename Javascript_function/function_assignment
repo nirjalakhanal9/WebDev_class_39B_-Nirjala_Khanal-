@@ -1,0 +1,308 @@
+const calculateBill = (units) => {
+    if (units <= 20) {
+      return units * 5 + 50;
+    }
+    if (units <= 50) {
+      return 20 * 5 + (units - 20) * 7 + 50;
+    }
+    return 20 * 5 + 30 * 7 + (units - 50) * 10 + 50;
+  };
+
+  const displayBill = (name, units, callback) => {
+    const totalBill = callback(units);
+    console.log(`Customer: ${name}`);
+    console.log(`Units Consumed: ${units}`);
+    console.log(`Total Electricity Bill: Rs. ${totalBill}`);
+  };
+
+  displayBill("Ram", 42, calculateBill);
+
+
+
+  
+ const calculateAverage = (m1, m2, m3) => {
+    return (m1 + m2 + m3) / 3;
+  };
+
+  const getDivision = (average) => {
+    if (average >= 70) return "First Division";
+    if (average >= 60) return "Second Division";
+    if (average >= 50) return "Third Division";
+    return "Fail";
+  };
+
+  const processResult = (name, m1, m2, m3, callback) => {
+    const avg = callback(m1, m2, m3);
+    const result = getDivision(avg);
+    console.log(`Student: ${name}`);
+    console.log(`Average: ${avg}`);
+    console.log(`Division: ${result}`);
+  };
+
+  processResult("Sita", 68, 55, 72, calculateAverage);
+
+
+
+    const calculateDiscount = (amount) => {
+    if (amount >= 5000) return 20;
+    if (amount >= 3000) return 15;
+    if (amount >= 1000) return 10;
+    return 0;
+  };
+
+  const calculateFinalPrice = (amount, discount) => {
+    return amount - (amount * discount) / 100;
+  };
+
+  const checkout = (customerName, amount, callback) => {
+    const discountPercent = calculateDiscount(amount);
+    const payable = callback(amount, discountPercent);
+    console.log(`Customer: ${customerName}`);
+    console.log(`Original Price: Rs. ${amount}`);
+    console.log(`Discount: ${discountPercent}%`);
+    console.log(`Final Price: Rs. ${payable}`);
+  };
+
+  checkout("Nikesh", 3500, calculateFinalPrice);
+
+
+const getTicketPrice = (age) => {
+    if (age < 12) return 150;
+    if (age <= 17) return 200;
+    if (age <= 59) return 300;
+    return 200;
+  };
+
+  const calculateTotal = (price, quantity) => {
+    return price * quantity;
+  };
+
+  const applyDiscount = (total, quantity) => {
+    if (quantity >= 5) {
+      return total * 0.1;
+    }
+    return 0;
+  };
+
+  const bookTicket = (name, age, quantity, callback) => {
+    const ticketPrice = getTicketPrice(age);
+    const totalAmount = callback(ticketPrice, quantity);
+    const discountAmount = applyDiscount(totalAmount, quantity);
+    const payableAmount = totalAmount - discountAmount;
+
+    console.log(`Customer: ${name}`);
+    console.log(`Age: ${age}`);
+    console.log(`Tickets: ${quantity}`);
+    console.log(`Total Before Discount: Rs. ${totalAmount}`);
+    console.log(`Discount: Rs. ${discountAmount}`);
+    console.log(`Final Amount: Rs. ${payableAmount}`);
+  };
+
+  bookTicket("Hari", 65, 6, calculateTotal);
+
+
+
+   const calculateBonus = (salary) => {
+    if (salary >= 40000) {
+      return salary * 0.1;
+    }
+    return salary * 0.05;
+  };
+
+  const calculateTax = (salary) => {
+    return salary * 0.05;
+  };
+
+  const calculateNetSalary = (salary, bonusCallback, taxCallback) => {
+    const bonusAmount = bonusCallback(salary);
+    const taxAmount = taxCallback(salary);
+    return salary + bonusAmount - taxAmount;
+  };
+
+  const generatePayslip = (name, salary, callback) => {
+    const bonusAmount = calculateBonus(salary);
+    const taxAmount = calculateTax(salary);
+    const net = callback(salary, calculateBonus, calculateTax);
+
+    console.log(`Employee: ${name}`);
+    console.log(`Basic Salary: Rs. ${salary}`);
+    console.log(`Bonus: Rs. ${bonusAmount}`);
+    console.log(`Tax: Rs. ${taxAmount}`);
+    console.log(`Net Salary: Rs. ${net}`);
+  };
+
+  generatePayslip("Ram", 32000, calculateNetSalary);
+
+
+ const calculateDelivery = (distance) => {
+    if (distance <= 2) {
+      return 30;
+    }
+    return 30 + (distance - 2) * 15;
+  };
+
+  const checkFreeDelivery = (orderAmount) => {
+    return orderAmount >= 1000;
+  };
+
+  const processOrder = (customer, distance, orderAmount, callback) => {
+    let charge = 0;
+
+    if (!checkFreeDelivery(orderAmount)) {
+      charge = callback(distance);
+    }
+
+    console.log(`Customer: ${customer}`);
+    console.log(`Order Amount: Rs. ${orderAmount}`);
+    console.log(`Distance: ${distance} km`);
+    console.log(`Delivery Charge: Rs. ${charge}`);
+  };
+
+  processOrder("Shyam", 6, 650, calculateDelivery);
+  processOrder("Shyam", 4, 1500, calculateDelivery);
+
+
+
+    const validateWithdrawal = (amount, balance) => {
+    const fee = 25;
+    if (amount <= 0) return false;
+    if (amount % 500 !== 0) return false;
+    if (amount + fee > balance) return false;
+    return true;
+  };
+
+  const withdrawMoney = (amount, balance, callback) => {
+    const fee = 25;
+    let updatedBalance = balance;
+
+    console.log(`Account Balance: Rs. ${balance}`);
+    console.log(`Withdrawal Amount: Rs. ${amount}`);
+
+    if (callback(amount, balance)) {
+      updatedBalance = balance - amount - fee;
+      console.log("Withdrawal Successful!");
+      console.log(`Transaction Fee: Rs. ${fee}`);
+    } else {
+      console.log("Withdrawal Failed! Amount must be a multiple of 500 and within your balance.");
+    }
+
+    console.log(`Remaining Balance: Rs. ${updatedBalance}`);
+    return updatedBalance;
+  };
+
+  withdrawMoney(2500, 8000, validateWithdrawal);
+  console.log("");
+  withdrawMoney(600, 8000, validateWithdrawal);
+  console.log("");
+  withdrawMoney(9000, 8000, validateWithdrawal);
+
+
+
+    const menu = [
+    { name: "Burger", price: 250 },
+    { name: "Pizza", price: 500 },
+    { name: "Momo", price: 150 },
+    { name: "Chowmein", price: 180 }
+  ];
+
+  const getFoodPrice = (foodName) => {
+    const foundItem = menu.find(food => food.name === foodName);
+    if (foundItem === undefined) {
+      return undefined;
+    }
+    return foundItem.price;
+  };
+
+  const calculateServiceCharge = (total) => {
+    return total * 0.05;
+  };
+
+  const calculateOrder = (foodName, quantity, callback) => {
+    const unitPrice = callback(foodName);
+    if (unitPrice === undefined) {
+      return undefined;
+    }
+    return unitPrice * quantity;
+  };
+
+  const generateReceipt = (customerName, foodName, quantity, callback) => {
+    const foodTotal = callback(foodName, quantity, getFoodPrice);
+
+    if (foodTotal === undefined) {
+      console.log(`Sorry ${customerName}, ${foodName} is not on the menu.`);
+      return;
+    }
+
+    const serviceCharge = calculateServiceCharge(foodTotal);
+    const finalAmount = foodTotal + serviceCharge;
+
+    console.log(`Customer: ${customerName}`);
+    console.log(`Food: ${foodName}`);
+    console.log(`Quantity: ${quantity}`);
+    console.log(`Food Amount: Rs. ${foodTotal}`);
+    console.log(`Service Charge: Rs. ${serviceCharge}`);
+    console.log(`Final Amount: Rs. ${finalAmount}`);
+  };
+
+  generateReceipt("Suman", "Pizza", 3, calculateOrder);
+  generateReceipt("Suman", "Noodles", 1, calculateOrder);
+
+
+
+    const calculateBonus = (amount) => {
+    if (amount >= 1000) return amount * 0.15;
+    if (amount >= 500) return amount * 0.1;
+    if (amount >= 100) return amount * 0.05;
+    return 0;
+  };
+
+  const calculateTotalBalance = (amount, bonus) => {
+    return amount + bonus;
+  };
+
+  const recharge = (number, amount, callback) => {
+    const bonusAmount = calculateBonus(amount);
+    const credited = callback(amount, bonusAmount);
+
+    console.log(`Mobile Number: ${number}`);
+    console.log(`Recharge Amount: Rs. ${amount}`);
+    console.log(`Bonus Received: Rs. ${bonusAmount}`);
+    console.log(`Total Balance: Rs. ${credited}`);
+  };
+
+  recharge("9800000000", 600, calculateTotalBalance);
+
+
+  const add = (a, b) => {
+    return a + b;
+  };
+
+  const subtract = (a, b) => {
+    return a - b;
+  };
+
+  const multiply = (a, b) => {
+    return a * b;
+  };
+
+  const divide = (a, b) => {
+    if (b === 0) {
+      return "Cannot divide by zero";
+    }
+    return a / b;
+  };
+
+  const calculate = (a, b, operationCallback) => {
+    return operationCallback(a, b);
+  };
+
+  console.log(`Addition: 20 + 10 = ${calculate(20, 10, add)}`);
+  console.log(`Subtraction: 20 - 10 = ${calculate(20, 10, subtract)}`);
+  console.log(`Multiplication: 20 * 10 = ${calculate(20, 10, multiply)}`);
+  console.log(`Division: 20 / 10 = ${calculate(20, 10, divide)}`);
+  console.log(`Division: 20 / 10 = ${calculate(20, 10, divide)}`);
+  
+
+
+  
+  
